@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const travellerData = await Traveller.findByPk(req.params.id, {
-      include: [{ model: Trip }],
+      include: [{ all: true, nested: true }],
     });
     // const travellerData = await Traveller.findByPk(req.params.id);
 
@@ -45,11 +45,23 @@ router.delete('/:id', (req, res) => {
       id: req.params.id,
     },
   })
-    .then((deletedTrip) => {
-      res.status(200).json(deletedTrip);
+    .then((deletedTraveller) => {
+      res.status(200).json(deletedTraveller);
     })
     .catch((err) => res.json(err));
 });
+
+// router.delete('/:id', (req, res) => {
+//   Traveller.destroy({
+//     where: {
+//       id: req.params.id,
+//     },
+//   })
+//     .then((deletedTrip) => {
+//       res.status(200).json(deletedTrip);
+//     })
+//     .catch((err) => res.json(err));
+// });
 
 
 module.exports = router;
